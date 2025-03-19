@@ -11,7 +11,7 @@ service:
 
 env:
   - name: MONGODB_CONN_STR
-    value: "mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongodb-svc.mongodb.svc.cluster.local:21017/auth?authSource=admin"
+    value: "mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongodb-svc.mongodb.svc.cluster.local:27017/auth?authSource=admin"
   - name: TIMESERVER_URL
     value: "http://time-server-app:8001"
 

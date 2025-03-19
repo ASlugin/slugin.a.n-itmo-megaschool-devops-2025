@@ -3,7 +3,7 @@ kind: MongoDBCommunity
 metadata:
   name: mongodb
 spec:
-  members: 1
+  members: 1  # Using 1 member for development purposes
   type: ReplicaSet
   version: "5.0.15"
   security:
@@ -27,14 +27,15 @@ spec:
   additionalMongodConfig:
     storage.wiredTiger.engineConfig.journalCompressor: zlib
   statefulSet:
-    volumeClaimTemplates:
-      - metadata:
-          name: data-volume
-        spec:
-          accessMode: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 8Gi
+    spec:
+      volumeClaimTemplates:
+        - metadata:
+            name: data-volume
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 8Gi
 ---
 apiVersion: v1
 kind: Secret
