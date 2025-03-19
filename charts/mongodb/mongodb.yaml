@@ -1,0 +1,45 @@
+apiVersion: mongodbcommunity.mongodb.com/v1
+kind: MongoDBCommunity
+metadata:
+  name: mongodb
+spec:
+  members: 1
+  type: ReplicaSet
+  version: "5.0.15"
+  security:
+    authentication:
+      modes: ["SCRAM"]
+  users:
+    - name: ${MONGODB_USERNAME}
+      db: admin
+      passwordSecretRef:
+        name: mongodb-user-password
+      roles:
+        - name: readWrite
+          db: admin
+        - name: readWrite
+          db: auth
+        - name: dbAdmin
+          db: auth
+        - name: userAdmin
+          db: admin
+      scramCredentialsSecretName: mongodb-scram
+  additionalMongodConfig:
+    storage.wiredTiger.engineConfig.journalCompressor: zlib
+  statefulSet:
+    volumeClaimTemplates:
+      - metadata:
+          name: data-volume
+        spec:
+          accessMode: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 8Gi
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-user-password
+type: Opaque
+stringData:
+  password: ${MONGODB_PASSWORD}
