@@ -1,0 +1,24 @@
+name: Helm Chart Validation
+
+on:
+    push:
+    pull_request:
+
+jobs:
+  helm-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Helm
+      uses: azure/setup-helm@v4.3.0
+      with:
+        version: v3.14.2
+
+    - name: helm-check
+      uses: igabaydulin/helm-check-action@0.1.4
+      env:
+        CHART_LOCATION: ./charts/app
+        CHART_VALUES: |
+            ./charts/app/values.auth-server.yaml
+            ./charts/app/values.time-server.yaml

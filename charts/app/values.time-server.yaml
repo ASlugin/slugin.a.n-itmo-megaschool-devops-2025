@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image:
+  repository: ifilyaninitmo/time-server-mega-itmo
+  pullPolicy: Always
+  tag: main
+
+service:
+  type: ClusterIP
+  port: 8001
+
+livenessProbe: null
+readinessProbe: null
+
+ingress:
+  enabled: false
+autoscaling:
+  enabled: false
